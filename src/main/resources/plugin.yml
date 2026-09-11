@@ -49,6 +49,10 @@ commands:
     description: Kill me
     usage: /<command>
     permission: SimpleTeleport.command.killme
+  wild:
+    description: Random Teleport
+    usage: /<command>
+    permission: SimpleTeleport.command.wild
 
 permissions:
   SimpleTeleport.command.home:
@@ -68,4 +72,6 @@ permissions:
   SimpleTeleport.command.dewarp:
     default: op
   SimpleTeleport.command.killme:
+    default: true
+  SimpleTeleport.command.wild:
     default: true

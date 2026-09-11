@@ -29,6 +29,8 @@ public final class SimpleTeleport extends JavaPlugin {
         getCommand("warp").setExecutor(new WarpCommand());
         getCommand("dewarp").setExecutor(new RemoveWarpCommand());
 
+        getCommand("wild").setExecutor(new WildCommand());
+        getCommand("killme").setExecutor(new KillMeCommand());
 
         // Register events
         getServer().getPluginManager().registerEvents(new LogOutListener(), this);

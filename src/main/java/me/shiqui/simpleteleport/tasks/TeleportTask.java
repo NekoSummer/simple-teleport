@@ -55,7 +55,7 @@ public class TeleportTask extends BukkitRunnable {
                 location.getY(),
                 location.getZ() + radius * Math.sin(-phase),
                 1,
-                new Particle.DustOptions(Color.fromARGB(200 - i * 5,112, 0, 112), 2)
+                new Particle.DustOptions(Color.fromRGB(112, 0, 112), 2)
             );
         }
     }
@@ -69,7 +69,7 @@ public class TeleportTask extends BukkitRunnable {
                 location.getY() + 2 - progress * 2,
                 location.getZ() + radius * Math.sin(angle + i),
                 1,
-                new Particle.DustOptions(Color.fromARGB((int) (progress * 50) + 150,180, 90, 180), 1)
+                new Particle.DustOptions(Color.fromRGB(180, 90, 180), 1)
             );
         }
     }

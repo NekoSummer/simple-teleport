@@ -1,7 +1,7 @@
 name: SimpleTeleport
 version: ${project.version}
 main: me.shiqui.simpleteleport.SimpleTeleport
-api-version: '1.20'
+api-version: '1.13'
 prefix: SimpleTP
 authors: [ shiqui ]
 commands:
@@ -45,6 +45,10 @@ commands:
     usage: /<command> <warp>
     permission: SimpleTeleport.command.dewarp
     permission-message: "You do not have the permission"
+  killme:
+    description: Kill me
+    usage: /<command>
+    permission: SimpleTeleport.command.killme
 
 permissions:
   SimpleTeleport.command.home:
@@ -63,3 +67,5 @@ permissions:
     default: op
   SimpleTeleport.command.dewarp:
     default: op
+  SimpleTeleport.command.killme:
+    default: true

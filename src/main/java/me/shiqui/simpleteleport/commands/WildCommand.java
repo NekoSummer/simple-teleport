@@ -1,5 +1,6 @@
 package me.shiqui.simpleteleport.commands;
 
+import me.shiqui.simpleteleport.SimpleTeleport;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -74,7 +75,7 @@ public class WildCommand implements CommandExecutor {
                         p.sendMessage(ChatColor.GREEN + "Teleported you to <X:" + x + " Y:" + (y + 1) + " Z:" + z + ">");
                     }
                 } catch (Exception e) {
-                    p.sendMessage(ChatColor.RED + "An error occurred. Please try again");
+                    p.sendMessage(ChatColor.RED + "An error occurred. Please try again.");
                     sender.sendMessage(ChatColor.RED + "Error while teleporting player \"" + p.getName() + "\" : " + e.getMessage());
                     return true;
                 }

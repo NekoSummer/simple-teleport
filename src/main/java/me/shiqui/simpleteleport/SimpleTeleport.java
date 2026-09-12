@@ -10,6 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class SimpleTeleport extends JavaPlugin {
     public static SimpleTeleport plugin;
 
+    BackCommand backCommand = new BackCommand(this);
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -31,9 +33,11 @@ public final class SimpleTeleport extends JavaPlugin {
 
         getCommand("wild").setExecutor(new WildCommand());
         getCommand("killme").setExecutor(new KillMeCommand());
+        getCommand("back").setExecutor(backCommand);
 
         // Register events
         getServer().getPluginManager().registerEvents(new LogOutListener(), this);
+        getServer().getPluginManager().registerEvents(backCommand, this);
 
         // Run tasks
         new ClearExpiredRequestTask().runTaskTimer(this, 0L, 20L);

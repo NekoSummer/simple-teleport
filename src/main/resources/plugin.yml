@@ -3,7 +3,7 @@ version: ${project.version}
 main: me.shiqui.simpleteleport.SimpleTeleport
 api-version: '1.13'
 prefix: SimpleTP
-authors: [ shiqui ]
+authors: [ shiqui, XinYueNeko ]
 commands:
   home:
     description: Teleport to home
@@ -53,6 +53,10 @@ commands:
     description: Random Teleport
     usage: /<command>
     permission: SimpleTeleport.command.wild
+  back:
+    description: Teleport back to your last death location
+    usage: /<command>
+    permission: SimpleTeleport.command.back
 
 permissions:
   SimpleTeleport.command.home:
@@ -74,4 +78,6 @@ permissions:
   SimpleTeleport.command.killme:
     default: true
   SimpleTeleport.command.wild:
+    default: true
+  SimpleTeleport.command.back:
     default: true

@@ -56,7 +56,7 @@ public class WildCommand implements CommandExecutor {
             int z = l.getBlockZ() + dz;
 
 
-            if (w.isChunkLoaded(x >> 4, z >> 4)) {
+            if (!w.isChunkLoaded(x >> 4, z >> 4)) {
                 w.loadChunk(x >> 4, z >> 4, true);
             }
 

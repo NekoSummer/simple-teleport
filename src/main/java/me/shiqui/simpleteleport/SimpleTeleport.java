@@ -4,17 +4,29 @@ import me.shiqui.simpleteleport.commands.*;
 import me.shiqui.simpleteleport.listeners.LogOutListener;
 import me.shiqui.simpleteleport.tasks.ClearExpiredRequestTask;
 import me.shiqui.simpleteleport.utils.DatabaseHelper;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 
 public final class SimpleTeleport extends JavaPlugin {
+    private BukkitAudiences audiences;
+
+    public @NotNull BukkitAudiences audiences() {
+        if (audiences == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return audiences;
+    }
+
     public static SimpleTeleport plugin;
 
-    BackCommand backCommand = new BackCommand(this);
+    public BackCommand backCommand = new BackCommand(this);
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        audiences = BukkitAudiences.create(this);
         plugin = this;
         saveDefaultConfig();
         DatabaseHelper.initialize("jdbc:sqlite:" + this.getDataFolder() + "/SimpleTP.db");
@@ -46,6 +58,10 @@ public final class SimpleTeleport extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        if (audiences != null) {
+            audiences.close();
+            audiences = null;
+        }
         getLogger().info("Unloading SimpleTeleport");
         DatabaseHelper.disconnect();
     }

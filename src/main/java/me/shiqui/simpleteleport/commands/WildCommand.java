@@ -1,10 +1,10 @@
 package me.shiqui.simpleteleport.commands;
 
 import me.shiqui.simpleteleport.SimpleTeleport;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 
 public class WildCommand implements CommandExecutor {
-    
+    public SimpleTeleport plugin = (SimpleTeleport) Bukkit.getPluginManager().getPlugin("SimpleTeleport");
     private final Random r = new Random();
 
     private boolean isAir(Block block) {
@@ -37,12 +37,14 @@ public class WildCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Audience audSender = plugin.audiences().sender(sender);
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be executed by a player.");
+            audSender.sendMessage(Component.text("This command can only be executed by a player.", NamedTextColor.RED));
             return true;
         }
 
         Player p = (Player) sender;
+        Audience audPlayer = plugin.audiences().player(p);
 
         World w = p.getWorld();
         Location l = p.getLocation();
@@ -53,15 +55,16 @@ public class WildCommand implements CommandExecutor {
             int x = l.getBlockX() + dx;
             int z = l.getBlockZ() + dz;
 
-            if (w.loadChunk(x >> 4, z >> 4, false)) {
-                continue;
+
+            if (w.isChunkLoaded(x >> 4, z >> 4)) {
+                w.loadChunk(x >> 4, z >> 4, true);
             }
 
             int y = w.getHighestBlockYAt(x, z);
 
             if (y <= 0) continue;
 
-            Block g = w.getBlockAt(x, y, x);
+            Block g = w.getBlockAt(x, y, z);
             Block f = w.getBlockAt(x, y + 1, z);
             Block h = w.getBlockAt(x, y + 2, z);
 
@@ -72,18 +75,18 @@ public class WildCommand implements CommandExecutor {
                 try {
                     if (p.isOnline()){
                         p.teleport(d);
-                        p.sendMessage(ChatColor.GREEN + "Teleported you to <X:" + x + " Y:" + (y + 1) + " Z:" + z + ">");
+                        audPlayer.sendMessage(Component.text("Teleported you to <X:" + x + " Y:" + (y + 1) + " Z:" + z + ">", NamedTextColor.GREEN));
                     }
                 } catch (Exception e) {
-                    p.sendMessage(ChatColor.RED + "An error occurred. Please try again.");
-                    sender.sendMessage(ChatColor.RED + "Error while teleporting player \"" + p.getName() + "\" : " + e.getMessage());
+                    audPlayer.sendMessage(Component.text("An error occurred. Please try again.", NamedTextColor.RED));
+                    audSender.sendMessage(Component.text("Error while teleporting player \"" + p.getName() + "\" : " + e.getMessage(), NamedTextColor.RED));
                     return true;
                 }
                 return true;
             }
         }
 
-        p.sendMessage(ChatColor.YELLOW + "Could not find a safe location. Please try again.");
+        audPlayer.sendMessage(Component.text("Could not find a safe location. Please try again.", NamedTextColor.YELLOW));
         return true;
     }
 

@@ -1,7 +1,9 @@
 package me.shiqui.simpleteleport.commands;
 
 import me.shiqui.simpleteleport.SimpleTeleport;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,15 +40,17 @@ public class BackCommand implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Audience audSender = plugin.audiences().sender(sender);
         if(!(sender instanceof Player)) {
             return true;
         }
 
         Player player = (Player) sender;
+        Audience audPlayer = plugin.audiences().player(player);
         Location deathPoint = deathLocations.get(player.getUniqueId());
 
         if (deathPoint == null) {
-            player.sendMessage(ChatColor.RED + "You have no recorded death location.");
+            audPlayer.sendMessage(Component.text("You have no recorded death location.", NamedTextColor.RED));
             return true;
         }
 
@@ -56,13 +60,13 @@ public class BackCommand implements CommandExecutor, Listener {
         try {
             if (player.isOnline()) {
                 player.teleport(deathPoint);
-                player.sendMessage(ChatColor.GREEN + "You have returned to your death location.");
+                audPlayer.sendMessage(Component.text("You have returned to your death location.", NamedTextColor.GREEN));
                 // 防止玩家重复返回死亡点
                 deathLocations.remove(player.getUniqueId());
             }
         } catch (Exception e) {
-            player.sendMessage(ChatColor.RED + "An error occurred. Please try again.");
-            sender.sendMessage("Error returning player \"" + player.getName() + "\" to death point: " + e.getMessage());
+            audPlayer.sendMessage(Component.text("An error occurred. Please try again.", NamedTextColor.RED));
+            audSender.sendMessage(Component.text("Error returning player \"" + player.getName() + "\" to death point: " + e.getMessage()));
             return true;
         }
 

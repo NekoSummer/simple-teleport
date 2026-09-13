@@ -4,6 +4,7 @@ main: me.shiqui.simpleteleport.SimpleTeleport
 api-version: '1.13'
 prefix: SimpleTP
 authors: [ shiqui, XinYueNeko ]
+folia-supported: true
 commands:
   home:
     description: Teleport to home
